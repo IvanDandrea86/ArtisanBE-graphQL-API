@@ -1,11 +1,12 @@
 import { ObjectType, Field } from "type-graphql";
-import { prop } from "@typegoose/typegoose";
+import { getModelForClass, prop } from "@typegoose/typegoose";
 
 
 @ObjectType()
 export class User {
   @Field()
-  readonly _id!: number;
+  @prop()
+  readonly _id!: string;
 
   @prop()
   @Field(() => Date)
@@ -21,5 +22,9 @@ export class User {
 
   @prop({ default: false })
   @Field()
-  username!: boolean;
+  password!: boolean;
 }
+
+export const UserModel = getModelForClass(User, {
+  schemaOptions: { timestamps: true },
+});
