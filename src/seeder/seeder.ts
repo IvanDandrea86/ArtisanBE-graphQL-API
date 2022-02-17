@@ -1,17 +1,13 @@
 import artisans from  "../../data/artisan.json"
 import { ArtisanModel } from "../entities/artisan/artisan"
 import {ObjectId}from "mongodb"
-
-
 export const seed =async()=>
 {
      artisans.map(async elem=>{
          let loc= elem.Localité.split(" ")
-    
-         let ID=new ObjectId()
-         let artisan = new ArtisanModel(
+         let artisan = await ArtisanModel.create(
 {
-    _id:ID,
+    _id:new ObjectId(),
     email: elem.Email,
     companyNumber: elem["Numéro d'entreprise"],
     type:elem["Type d'entreprise"],
@@ -25,9 +21,7 @@ export const seed =async()=>
     telephone: elem.Téléphone, 
     startDate:elem["Date début"],
     endDate: elem["Date de fin"], 
-    secteur:elem.Secteur
-         
-     
+    secteur:elem.Secteur  
    })
    try {
     await artisan.save();
