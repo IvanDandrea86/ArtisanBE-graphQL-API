@@ -1,13 +1,6 @@
 import { Resolver, Query, } from "type-graphql";
 import { Service } from "typedi";
-import { User, UserModel } from "../../entities/user.entity";
-
-
-declare module 'express-session' {
-       interface SessionData {
-           userID: string;
-      }
-    }
+import { User, UserModel } from "../../entities/user/user";
 
 @Service() // Dependencies injection
 @Resolver(() => User )

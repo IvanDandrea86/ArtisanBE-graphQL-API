@@ -5,5 +5,7 @@ declare namespace NodeJS{
         PORT: number;
         PASS:string;
     }
+   
+    
 }
 

@@ -6,16 +6,12 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { resolvers } from "./resolver";
 import {PORT} from "./const"
-
+import {seed} from "./seeder/seeder"
 
 
 const main =async()=>{
 
-
-
-
 //Connect DB
-
 runConnection().catch(err=>{
 console.error(err);
 })
@@ -30,13 +26,9 @@ const apolloServer = new ApolloServer({
 }); 
 
 app.use('/', express.static(path.resolve(__dirname,'../public')))
-
-
 app.listen(PORT,()=>{
     console.log(`🚀 Server running at http://localhost:${PORT}`);
-    console.log(__dirname)
 })
-
 await apolloServer.start()
 .then(()=>{
     console.log(`🚀 Graphql running at http://localhost:${PORT}/graphql`); 
@@ -44,9 +36,8 @@ await apolloServer.start()
 })
    
 
+seed().then(()=>console.log("seeds ended")) 
 
-   
-  
 }
 main().catch(err=>{
     console.error(err);

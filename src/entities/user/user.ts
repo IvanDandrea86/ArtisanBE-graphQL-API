@@ -20,6 +20,7 @@ export class User {
   @Field()
   email!: string;
 
+  
   @prop({ default: false })
   @Field()
   password!: boolean;
