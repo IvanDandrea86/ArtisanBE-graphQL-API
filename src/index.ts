@@ -6,7 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { resolvers } from "./resolver";
 import {PORT} from "./const"
-import {seed} from "./seeder/seeder"
+//import {seed} from "./seeder/seeder"
 
 
 const main =async()=>{

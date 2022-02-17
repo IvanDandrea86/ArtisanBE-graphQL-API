@@ -5,19 +5,11 @@ const fs = require("fs");
 csv = fs.readFileSync("./artisans1.csv")
 var array = csv.toString().split("\n");
 let result = [];
- 
-
 let headers = array[0].split(";")
- 
-
 for (let i = 1; i < array.length - 1; i++) {
   let obj = {}
- 
- 
   let str = array[i]
   let s = ''
- 
-  
   let flag = 0
   for (let ch of str) {
     if (ch === '"' && flag === 0) {
