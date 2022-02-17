@@ -36,7 +36,7 @@ await apolloServer.start()
 })
    
 
-seed().then(()=>console.log("seeds ended")) 
+//seed().then(()=>console.log("seeds ended")) 
 
 }
 main().catch(err=>{
