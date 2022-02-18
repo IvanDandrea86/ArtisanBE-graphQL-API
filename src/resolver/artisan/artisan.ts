@@ -1,10 +1,14 @@
-import { Resolver, Query, Arg, Authorized, } from "type-graphql";
+import { ArtisanResponse } from "../../entities/artisan/artisan.type";
+import { Resolver, Query, Arg, Authorized, Mutation, } from "type-graphql";
 import { Service } from "typedi";
 import { Artisan, ArtisanModel } from "../../entities/artisan/artisan";
+import { ArtisanInputs } from "../../entities/artisan/artisan.input";
+
 
 @Service() // Dependencies injection
 @Resolver(() => Artisan )
 export default class ArtisanResolver {
+  @Authorized()
   @Query(() => [Artisan], { name: "findAllArtisans" })
   async findAllArtisans():Promise<Artisan[] | null> {
     try{ 
@@ -16,6 +20,7 @@ export default class ArtisanResolver {
   }
   return null
 }
+@Authorized()
 @Query(() => [Artisan], { name: "findArtisanByCompanyNumber" })
 async findArtisanByCompanyNumber(
   @Arg("companyNumber") companyNumber:string
@@ -29,6 +34,7 @@ const artisan= await ArtisanModel.find({companyNumber:companyNumber});
 }
 return null
 }
+@Authorized()
 @Query(()=>[String], {name:"getLegalForm"})
 async getLegalForm():Promise<String[]>{
   let legalForms=new Array<String>()
@@ -40,6 +46,7 @@ async getLegalForm():Promise<String[]>{
   })
   return legalForms
 }
+@Authorized()
 @Query(()=>[String], {name:"getTypes"})
 async getTypes():Promise<String[]>{
   let types=new Array<String>()
@@ -51,18 +58,21 @@ async getTypes():Promise<String[]>{
   })
   return types
 }
-@Authorized(["ADMIN"])
+@Authorized()
 @Query(()=>[String], {name:"getSecteurs"})
 async getSecteurs():Promise<String[]>{
   let secteur=new Array<String>()
   let artisan=await ArtisanModel.find({})
-  artisan.forEach((elem)=>{
-    if(!secteur.includes(elem.secteur)){
-      secteur.push(elem.secteur)
+  artisan.forEach((elemArray)=>{
+    elemArray.secteur.forEach((elem:string)=>{
+    if(!secteur.includes(elem)){
+      secteur.push(elem)
     }
+  })
   })
   return secteur
 }
+@Authorized()
 @Query(() => [Artisan], { name: "findArtisans" })
 async findArtisans(
   @Arg("city",{nullable:true}) city:string,
@@ -80,4 +90,27 @@ const artisan= await ArtisanModel.find({$or:[{city:city},{cap:cap},{secteur:sect
 }
 return null
 }
+
+@Mutation(()=>ArtisanResponse,{name:"addArtisan"})
+async addArtisan(
+  @Arg("artisanInputs") artisanInputs:ArtisanInputs
+
+):Promise<ArtisanResponse>{
+try{
+  const artisan= await ArtisanModel.create({artisanInputs})
+  return {artisan}
+}
+catch(err){
+  return {
+    errors:{
+      field:"create",
+      message:err
+    }
+    }
+  
+  }
+
+  return{}
+}
+
 }

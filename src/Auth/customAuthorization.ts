@@ -13,7 +13,7 @@ export const authChecker: AuthChecker<MyContext> = ({ context}, roles) => {
     try {
       const token = authorization.split(" ")[1];
       const payload = verify(token, SECRET);
-      console.log(payload);
+  
       context.payload = payload as any;
     } catch (err) {
       console.log(err);

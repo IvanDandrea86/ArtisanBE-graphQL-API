@@ -1,6 +1,6 @@
 
 import { UserInputs } from "../../entities/user/user.input";
-import { Resolver, Query, Mutation, Arg, UseMiddleware, Ctx, Authorized} from "type-graphql";
+import { Resolver, Query, Mutation, Arg, Ctx, Authorized} from "type-graphql";
 import { Service } from "typedi";
 import { User, UserModel } from "../../entities/user/user";
 import { UserResponse } from "../../entities/user/user.types";

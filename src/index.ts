@@ -10,7 +10,7 @@ import { MyContext } from "./types/types";
 import expressJwt from "express-jwt";
 import { authChecker } from "./Auth/customAuthorization";
 
-//import {seed} from "./seeder/seeder"
+import {seed} from "./seeder/seeder"
 
 
 async function main() {
@@ -49,7 +49,7 @@ async function main() {
         });
 
 
-    //seed().then(()=>console.log("seeds ended")) 
+    seed().then(()=>console.log("seeds ended")) 
 }
 main().catch(err=>{
     console.error(err);

@@ -26,19 +26,15 @@ export class Artisan {
   @prop()
   @Field()
   type!: string;
-
   @prop()
   @Field()
   langue!: string;
-
   @prop()
   @Field()
   legalForm!: string;
-
   @prop()
   @Field()
-  name!: string; //change type
-
+  name!: string; 
   @Field()
   @prop()
   street: string;
@@ -64,9 +60,9 @@ export class Artisan {
   @Field()
   endDate!: string;
 
-  @prop()
-  @Field()
-  secteur!: string;
+  @prop({type:[String]})
+  @Field(()=>[String])
+  secteur!: string[];
 }
 
 export const ArtisanModel = getModelForClass(Artisan, {

@@ -1,14 +1,11 @@
 import { FieldError } from "../../types/types";
 import { Field, ObjectType } from "type-graphql";
-import { User } from "./user";
-
+import { Artisan } from "./artisan";
 
 @ObjectType()
-export class UserResponse {
+export class ArtisanResponse {
   @Field(() => FieldError, { nullable: true })
   errors?: FieldError;
-  @Field(() => User, { nullable: true })
-  user?: User;
-  @Field(() => String, { nullable: true })
-  token?: string;
+  @Field(() => Artisan, { nullable: true })
+  artisan?: Artisan
 }
