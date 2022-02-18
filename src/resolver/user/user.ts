@@ -1,6 +1,6 @@
 
 import { UserInputs } from "../../entities/user/user.input";
-import { Resolver, Query, Mutation, Arg, UseMiddleware, Ctx} from "type-graphql";
+import { Resolver, Query, Mutation, Arg, UseMiddleware, Ctx, Authorized} from "type-graphql";
 import { Service } from "typedi";
 import { User, UserModel } from "../../entities/user/user";
 import { UserResponse } from "../../entities/user/user.types";
@@ -12,7 +12,7 @@ import { isEmptyString, isValidEmail, isValidPassword } from "../../utils/valida
 import { ObjectId } from "mongodb";
 import { SECRET } from "../../const";
 import { MyContext } from "../../types/types";
-import { isAuth } from "../../isAuth";
+// import { isAuth } from "../../Auth/isAuth";
 
 @Service() // Dependencies injection
 @Resolver(() => User )
@@ -30,8 +30,8 @@ export default class UserResolver {
   }
   return null
 }
+@Authorized()
 @Query(() => String,{name:"Me"})
-@UseMiddleware(isAuth)
 async Me(@Ctx() { payload }: MyContext) {
   return `Your user id : ${payload!.artisan_api_graphql.id}`;
 }

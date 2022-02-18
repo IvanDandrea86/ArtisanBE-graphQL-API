@@ -14,6 +14,6 @@ GraphQL API to interact with the Commission Artisans database.
 
 ### Features
 
-- OAuth 2.0 Authentication
+- JWT Authentication
 - Different level of authorization
 

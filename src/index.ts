@@ -8,6 +8,7 @@ import { resolvers } from "./resolver";
 import {PORT, SECRET} from "./const"
 import { MyContext } from "./types/types";
 import expressJwt from "express-jwt";
+import { authChecker } from "./Auth/customAuthorization";
 
 //import {seed} from "./seeder/seeder"
 
@@ -32,6 +33,7 @@ async function main() {
         schema: await buildSchema({
             resolvers: resolvers,
             validate: true,
+            authChecker:authChecker
         }),
         context: ({ req, res }): MyContext => { return { res, req }; }
     });

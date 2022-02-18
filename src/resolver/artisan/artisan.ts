@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, } from "type-graphql";
+import { Resolver, Query, Arg, Authorized, } from "type-graphql";
 import { Service } from "typedi";
 import { Artisan, ArtisanModel } from "../../entities/artisan/artisan";
 
@@ -51,6 +51,7 @@ async getTypes():Promise<String[]>{
   })
   return types
 }
+@Authorized(["ADMIN"])
 @Query(()=>[String], {name:"getSecteurs"})
 async getSecteurs():Promise<String[]>{
   let secteur=new Array<String>()
