@@ -4,6 +4,7 @@ declare namespace NodeJS{
         ATLAS_CONNETCION:string;
         PORT: number;
         PASS:string;
+        SECRET:string;
     }
    
     

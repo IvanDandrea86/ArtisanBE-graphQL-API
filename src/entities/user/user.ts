@@ -3,7 +3,7 @@ import { getModelForClass, prop } from "@typegoose/typegoose";
 
 
 @ObjectType()
-export class User {
+export class User  {
   @Field()
   @prop()
   readonly _id!: string;
@@ -23,7 +23,12 @@ export class User {
   
   @prop({ default: false })
   @Field()
-  password!: boolean;
+  password!: string;
+
+  @prop({type:[String]})
+  @Field(()=>[String])
+  roles: string[];
+
 }
 
 export const UserModel = getModelForClass(User, {
