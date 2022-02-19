@@ -39,7 +39,7 @@ async function main() {
         context: ({ req, res }): MyContext => { return { res, req }; }
     });
 
-    app.use('/', express.static(path.resolve(__dirname, '../public')));
+    app.use('/', express.static(path.resolve(__dirname, '../../public')));
     app.listen(PORT, () => {
         console.log(`🚀 Server running at http://localhost:${PORT}`);
     });
