@@ -29,7 +29,6 @@ export const seed =async()=>
                     endDate: elem["Date de fin"], 
                     secteur:elem.Secteur  
                 })
-  
                  await artisan.save();
                  
 }

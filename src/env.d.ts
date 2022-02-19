@@ -5,6 +5,7 @@ declare namespace NodeJS{
         PORT: number;
         PASS:string;
         SECRET:string;
+        REDIS_URL:string;
     }
    
     

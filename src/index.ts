@@ -9,8 +9,9 @@ import {PORT, SECRET} from "./const"
 import { MyContext } from "./types/types";
 import expressJwt from "express-jwt";
 import { authChecker } from "./Auth/customAuthorization";
+import { loadRedis } from "./loader/redis";
 
-import {seed} from "./seeder/seeder"
+//import {seed} from "./seeder/seeder"
 
 
 async function main() {
@@ -48,8 +49,8 @@ async function main() {
             apolloServer.applyMiddleware({ app });
         });
 
-
-    seed().then(()=>console.log("seeds ended")) 
+        loadRedis()
+   //awaitseed() 
 }
 main().catch(err=>{
     console.error(err);

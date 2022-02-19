@@ -6,6 +6,7 @@ import { User, UserModel } from "../../entities/user/user";
 import { UserResponse } from "../../entities/user/user.types";
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { redisBlackList } from "../../loader/redis";
 
 
 import { isEmptyString, isValidEmail, isValidPassword } from "../../utils/validation";
@@ -120,10 +121,21 @@ async login(
   {console.error(err)}  
 return{}
 }
-// @Mutation( {name:"logout"})
-// async logout(){
-  
-// }
+@Mutation(()=>Boolean, {name:"logout"})
+async logout(
+  @Ctx() {req}:MyContext
+):Promise<Boolean>{
+  if(req.headers.authorization!==undefined){
+  const token = req.headers.authorization.split(' ')[1];
+  try {
+      await redisBlackList.lpush('token', token);
+      return true;
+  } catch (error) {
+    throw new Error(error);
+    };
+  }
+  else return false  
+}
 }
 
 

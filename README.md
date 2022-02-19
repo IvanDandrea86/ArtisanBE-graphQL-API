@@ -14,6 +14,12 @@ GraphQL API to interact with the Commission Artisans database.
 
 ### Features
 
-- JWT Authentication
-- Different level of authorization
+- JWT Authentication(Stateless)
+- Different level of authorization(USER/ADMIN/OP)
+- Redis Blacklist(revoke auth/logout)
+- Inputs validation and sanitization (WIP)
+- Timeouts (WIP)
+- Rate limiting (WIP)
+- Query cost analysis (WIP) 
+
 
