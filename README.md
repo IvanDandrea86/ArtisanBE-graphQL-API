@@ -18,36 +18,7 @@ Afterwards i iterated the json file by removing the double instances(companyNumb
 <br> 
 [seeder.ts](./src//seeder/seeder.ts)
 <br>
-```typescript
-catch (err) {
-    //catch duplicate fields errors
-      if ((err.code = 11000)) {
-        const exist = await ArtisanModel.findOne(err.keyValue);
-        if (exist !== null) {
-            //iterate through the properties of the compared elements to find same properties with difference
-          let key: keyof typeof elem;
-          let prop: keyof typeof exist;
-          for (key in elem) {
-            for (prop in exist) {
-              if (prop === key && prop !== "secteur")
-                if (exist[prop] === "" && elem[key] !== "") {
-                    //update field
-                  exist[prop] = elem[key]
-                  await exist.save();
-                  console.log("Artisan updated");
-                }
-            }
-          }
-          if (!exist.secteur.includes(elem.secteur)) {
-              //also update secteur field if duplicate contains different instances
-            exist.secteur.push(elem.secteur);
-            await exist.save();
-            console.log("Artisan updated");
-          }
-        }
-      }
-    }
-```
+
 
 ## Technologies
 ---
