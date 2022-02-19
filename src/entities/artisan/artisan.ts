@@ -6,23 +6,18 @@ export class Artisan {
   @Field()
   @prop()
   readonly _id!: string;
-
   @prop()
   @Field(() => Date)
   createdAt!: Date;
-
   @prop()
   @Field(() => Date)
   updatedAt!: Date;
-
   @prop()
   @Field()
   email!: string;
-
   @prop({ required: true, unique: true })
   @Field()
   companyNumber!: string;
-
   @prop()
   @Field()
   type!: string;
@@ -47,7 +42,10 @@ export class Artisan {
   @Field()
   @prop()
   city: string;
-
+  @Field()
+  @prop()
+  web: string;
+  
   @prop()
   @Field()
   telephone!: string;

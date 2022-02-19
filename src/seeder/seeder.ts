@@ -26,6 +26,7 @@ export const seed =async()=>
                         cap:loc[0],
                     telephone: elem.Téléphone, 
                     startDate:elem["Date début"],
+                    web:elem.Web,
                     endDate: elem["Date de fin"], 
                     secteur:elem.Secteur  
                 })
