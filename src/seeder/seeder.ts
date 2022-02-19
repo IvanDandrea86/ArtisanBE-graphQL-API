@@ -1,17 +1,16 @@
 import artisans from  "../../data/artisan.json"
-import {  ArtisanModel } from "../entities/artisan/artisan"
+import {   ArtisanModel } from "../entities/artisan/artisan"
 import {ObjectId}from "mongodb"
+
+
+
 export const seed =async()=>
 {
+    console.log("Start seed")
      artisans.map(async elem=>{
          let loc= elem.Localité.split(" ")
          try{
-            const exist = await ArtisanModel.findOne({companyNumber:elem["Numéro d'entreprise"]})
-            if (exist){
-                exist.secteur.push(elem.Secteur)
-                }
-            else{
-                let artisan = await ArtisanModel.create(
+                let artisan = await new ArtisanModel(
                 {
                     _id:new ObjectId(),
                     email: elem.Email,
@@ -21,9 +20,9 @@ export const seed =async()=>
                     legalForm:elem["Forme juridique"],
                     name:elem.Nom,
                     street:elem.Adresse,
-                        number:elem.Numéro,
-                        city:loc[1],
-                        cap:loc[0],
+                    number:elem.Numéro,
+                    city:loc[1],
+                    cap:loc[0],
                     telephone: elem.Téléphone, 
                     startDate:elem["Date début"],
                     web:elem.Web,
@@ -32,11 +31,23 @@ export const seed =async()=>
                 })
                  await artisan.save();
                  
-}
+
 }
 catch(err){
-    console.error(err)
+    if (err.code=11000){
+       const exist= await ArtisanModel.findOne(err.keyValue)
+       
+       if (exist!==null){
+        //insert logic for emty field of double entities
+       exist.secteur.push(elem.Secteur)
+       await exist.save()
+       console.log("Artisan updated")
+       }
+    }
 }
 })
+
+  
+
 }
     

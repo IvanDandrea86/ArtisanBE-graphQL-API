@@ -50,7 +50,7 @@ async function main() {
         });
 
         loadRedis()
-   //awaitseed() 
+  // await seed() 
 }
 main().catch(err=>{
     console.error(err);
