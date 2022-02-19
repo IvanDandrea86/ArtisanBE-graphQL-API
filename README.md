@@ -16,7 +16,7 @@ Before moving on to the development of the API, I converted the csv format into 
 <br>
 Afterwards i iterated the json file by removing the double instances(companyNumber) and merging the separate data 
 <br> 
-[csvToJson.js](./src//seeder/seeder.ts)
+[seeder.ts](./src//seeder/seeder.ts)
 <br>
 ```typescript
 catch (err) {
