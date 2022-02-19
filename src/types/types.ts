@@ -1,5 +1,8 @@
 import { Response,Request } from "express"
 import { Field, ObjectType } from "type-graphql";
+
+export type Authorization= "ADMIN" | "OP"
+
 export type MyContext={
     res:Response
     req:Request

@@ -1,5 +1,6 @@
 import { ObjectType, Field } from "type-graphql";
 import { getModelForClass, prop } from "@typegoose/typegoose";
+import { Authorization } from "../../types/types";
 
 
 @ObjectType()
@@ -27,7 +28,7 @@ export class User  {
 
   @prop({type:[String]})
   @Field(()=>[String])
-  roles: string[];
+  roles: Authorization[];
 
 }
 

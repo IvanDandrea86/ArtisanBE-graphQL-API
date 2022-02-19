@@ -10,6 +10,5 @@ export class UserInputs{
     @Field()
     @Length(3, 56)
     password:string;
-
-
+    
 }

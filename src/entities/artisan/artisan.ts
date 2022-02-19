@@ -13,53 +13,53 @@ export class Artisan {
   @Field(() => Date)
   updatedAt!: Date;
   @prop()
-  @Field()
+  @Field({nullable:true})
   email!: string;
   @prop({ required: true, unique: true })
   @Field()
   companyNumber!: string;
   @prop()
-  @Field()
+  @Field({nullable:true})
   type!: string;
   @prop()
-  @Field()
+  @Field({nullable:true})
   langue!: string;
   @prop()
-  @Field()
+  @Field({nullable:true})
   legalForm!: string;
   @prop()
-  @Field()
+  @Field({nullable:true})
   name!: string; 
-  @Field()
+  @Field({nullable:true})
   @prop()
   street: string;
-  @Field()
+  @Field({nullable:true})
   @prop()
   number: string;
-  @Field()
+  @Field({nullable:true})
   @prop()
   cap: string;
-  @Field()
+  @Field({nullable:true})
   @prop()
   city: string;
-  @Field()
+  @Field({nullable:true})
   @prop()
   web: string;
   
   @prop()
-  @Field()
+  @Field({nullable:true})
   telephone!: string;
 
   @prop()
-  @Field()
+  @Field({nullable:true})
   startDate!: string;
 
   @prop()
-  @Field()
+  @Field({nullable:true})
   endDate!: string;
 
   @prop({type:[String]})
-  @Field(()=>[String])
+  @Field(()=>[String],{nullable:true})
   secteur!: string[];
 }
 

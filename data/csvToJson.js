@@ -1,8 +1,5 @@
-
-// Reading the file using default
-// fs npm package
-const fs = require("fs");
-csv = fs.readFileSync("./artisans1.csv")
+import { readFileSync, writeFileSync } from "fs";
+csv = readFileSync("./artisans1.csv")
 var array = csv.toString().split("\n");
 let result = [];
 let headers = array[0].split(";")
@@ -19,11 +16,7 @@ for (let i = 1; i < array.length - 1; i++) {
     if (ch === ';' && flag === 0) ch = '|'
     if (ch !== '"') s += ch
   }
- 
-
   let properties = s.split("|")
- 
-
   for (let j in headers) {
     if (properties[j].includes(";")) {
       obj[headers[j]] = properties[j]
@@ -31,11 +24,7 @@ for (let i = 1; i < array.length - 1; i++) {
     }
     else obj[headers[j]] = properties[j]
   }
- 
- 
   result.push(obj)
 }
- 
-
 let json = JSON.stringify(result);
-fs.writeFileSync('artisan.json', json);
+writeFileSync('artisan.json', json);

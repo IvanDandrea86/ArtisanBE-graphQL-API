@@ -12,7 +12,7 @@ import { redisBlackList } from "../../loader/redis";
 import { isEmptyString, isValidEmail, isValidPassword } from "../../utils/validation";
 import { ObjectId } from "mongodb";
 import { SECRET } from "../../const";
-import { MyContext } from "../../types/types";
+import { Authorization, MyContext } from "../../types/types";
 // import { isAuth } from "../../Auth/isAuth";
 
 @Service() // Dependencies injection
@@ -135,6 +135,40 @@ async logout(
     };
   }
   else return false  
+}
+
+@Authorized("ADMIN")
+@Mutation(() => UserResponse, { name: "deleteUser" })
+async deleteUser(
+  @Arg("id",{nullable:true}) id: string,
+  @Arg("email",{nullable:true}) email: string
+): Promise<UserResponse> {
+  try {
+    const user = await UserModel.findOneAndDelete({
+      $or: [{ _id: id }, { email: email }],
+    });
+    return { user: user as User };
+  } catch (err) {
+    return { errors: { field: "delete", message: err } };
+  }
+}
+@Authorized("ADMIN")
+@Mutation(() => UserResponse, { name: "giveAuth" })
+async giveAuth(
+  @Arg("id",{nullable:true}) id: string,
+  @Arg("email",{nullable:true}) email: string,
+  @Arg("newRole",{nullable:true}) newRole: Authorization,
+  
+): Promise<UserResponse> {
+  try {
+    const user = await UserModel.findOneAndUpdate({
+      $or: [{ _id: id }, { email: email }]
+    },{$pull:{roles:newRole}});
+    console.log(user)
+    return { user: user as User };
+  } catch (err) {
+    return { errors: { field: "delete", message: err } };
+  }
 }
 }
 

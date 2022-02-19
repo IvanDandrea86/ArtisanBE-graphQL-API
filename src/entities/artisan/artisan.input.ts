@@ -1,4 +1,4 @@
-import { Length, Max } from "class-validator";
+import { Length } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
@@ -6,45 +6,46 @@ export class ArtisanInputs{
     @Field()
     @Length(8, 12)
     companyNumber!: string;
-    @Field()
-    @Max(56)
+    
+    @Field({nullable:true})
+    @Length(6, 57)
     email: string;
-    @Field()
-    @Max(255)
+    @Field({nullable:true})
+    
     type: string;
-    @Field()
-    @Max(56)
+    @Field({nullable:true})
+    
     langue: string;
-    @Field()
-    @Max( 56)
+    @Field({nullable:true})
+    
     legalForm: string;
-    @Field()
-    @Max(255)
+    @Field({nullable:true})
+    
     name: string;
-    @Field()
-    @Max(255)
+    @Field({nullable:true})
+    
     street: string;
-    @Field()
+    @Field({nullable:true})
     number: string;
-    @Field()
-    @Max(10)
+    @Field({nullable:true})
+    
     cap: string;
-    @Field()
-    @Max(128)
+    @Field({nullable:true})
+    
     city: string;
-    @Field()
-    @Max(20)
+    @Field({nullable:true})
+    
     telephone: string;
-    @Field()
-    @Max(128)
+    @Field({nullable:true})
+    
     web: string;
-    @Field()
-    @Max(11)
+    @Field({nullable:true})
+    
     startDate: string;
-    @Field()
-    @Max(11)
+    @Field({nullable:true})
+    
     endDate: string;
-    @Field()
-    @Max(128)
-    secteur: string;
+    @Field(()=>[String],{nullable:true})
+    
+    secteur: string[];
 }

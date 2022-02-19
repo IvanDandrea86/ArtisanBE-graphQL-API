@@ -11,11 +11,10 @@ import expressJwt from "express-jwt";
 import { authChecker } from "./Auth/customAuthorization";
 import { loadRedis } from "./loader/redis";
 
-//import {seed} from "./seeder/seeder"
+import {seed} from "./seeder/seeder"
 
 
 async function main() {
-
     //Connect DB
     runConnection().catch(err => {
         console.error(err);
@@ -50,7 +49,7 @@ async function main() {
         });
 
         loadRedis()
-  // await seed() 
+   await seed() 
 }
 main().catch(err=>{
     console.error(err);
