@@ -91,7 +91,6 @@ npm start
 ### Note
 ---
 You must have an instance of redis server running locally.
-First of all:
 ```
 redis-server
 ```
