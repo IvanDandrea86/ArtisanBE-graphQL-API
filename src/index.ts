@@ -46,7 +46,7 @@ async function main() {
         });
 
         loadRedis()
-   await seed() 
+        await seed() 
 }
 main().catch(err=>{
     console.error(err);

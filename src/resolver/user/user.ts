@@ -19,7 +19,7 @@ import { Authorization, MyContext } from "../../types/types";
 @Resolver(() => User )
 export default class UserResolver {
 
-  
+  @Authorized("ADMIN")
   @Query(() => [User], { name: "findAllUsers" })
   async findAllUsers():Promise<User[] | null> {
     try{ 
