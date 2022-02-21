@@ -10,10 +10,7 @@ import { MyContext } from "./types/types";
 import expressJwt from "express-jwt";
 import { authChecker } from "./Auth/customAuthorization";
 import { loadRedis } from "./loader/redis";
-
 import {seed} from "./seeder/seeder"
-
-
 async function main() {
     //Connect DB
     runConnection().catch(err => {
@@ -28,19 +25,16 @@ async function main() {
           credentialsRequired: false
         })
       );
-
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: resolvers,
-            
             validate: true,
             authChecker:authChecker,
-
         }),
+        introspection:true,
         playground:true,
         context: ({ req, res }): MyContext => { return { res, req }; }
     });
-
     app.use('/', express.static(path.resolve(__dirname, '../../public')));
     app.listen(PORT, () => {
         console.log(`🚀 Server running at http://localhost:${PORT}`);
