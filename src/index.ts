@@ -32,9 +32,12 @@ async function main() {
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: resolvers,
+            
             validate: true,
-            authChecker:authChecker
+            authChecker:authChecker,
+
         }),
+        playground:true,
         context: ({ req, res }): MyContext => { return { res, req }; }
     });
 

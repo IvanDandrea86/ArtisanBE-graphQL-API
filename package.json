@@ -2,6 +2,9 @@
     "name": "api_artisan_graphql",
     "version": "1.0.0",
     "main": "index.js",
+    "engines": {
+        "node": "14.0" 
+    },
     "scripts": {
         "watch": "tsc -w",
         "dev": "nodemon ./dist/src/index.js",
