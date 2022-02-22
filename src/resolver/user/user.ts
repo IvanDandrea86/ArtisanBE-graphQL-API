@@ -108,7 +108,7 @@ async login(
     else{
       let roles=user?.roles
       let id =user?._id
-      console.log(id)
+     
       return {token:jwt.sign(
         { "artisan_api_graphql": { id, roles } },
         SECRET,
