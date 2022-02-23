@@ -31,6 +31,7 @@ Afterwards i iterated the json file by removing the double instances(companyNumb
 - GraphQL
 - Redis
 - Typescript
+- Jest
 
 ### Features
 
@@ -41,6 +42,7 @@ Afterwards i iterated the json file by removing the double instances(companyNumb
 - Timeouts (WIP)
 - Rate limiting (WIP)
 - Query cost analysis (WIP) 
+- Integration Test
 ### Install
 ---
 ```
@@ -58,6 +60,12 @@ npm run dev
 npm run build
 npm start
 ```
+### Test 
+---
+```
+npm run test
+
+```
 
 ### Note
 ---
@@ -65,6 +73,10 @@ You must have an instance of redis server running locally.
 ```
 redis-server
 ```
+### Issues
+---
+I have not yet found a solution for testing authentication and authorisations as the 'apollo-server-test' library does not allow changes to be made to the context.
+
 
 
 

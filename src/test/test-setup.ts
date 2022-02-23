@@ -9,6 +9,7 @@ import { MyContext } from '../types/types';
 
 
 
+
 export const connectToDb = async () => {
   await mongoose.connect((await MongoMemoryServer.create()).getUri())   
 }
@@ -24,12 +25,15 @@ export const closeDbConnection = async () => {
 }
 
 export const testClient=async()=>{
-  const server = new ApolloServer({
+  const apolloServer = new ApolloServer({
     schema: await gqlSchema(),
     context: ({ req, res }): MyContext => { return { res, req }; }
 });
-  
-     return createTestClient(server)
+
+     return createTestClient(
+      apolloServer,
+    )
+   
  
 }
 
