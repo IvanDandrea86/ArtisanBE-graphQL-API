@@ -1,9 +1,9 @@
 
-import { UserInputs } from "../../entities/user/user.input";
+import { UserInputs } from "../../models/user/user.input";
 import { Resolver, Query, Mutation, Arg, Ctx, Authorized} from "type-graphql";
 import { Service } from "typedi";
-import { User, UserModel } from "../../entities/user/user";
-import { UserResponse } from "../../entities/user/user.types";
+import { User, UserModel } from "../../models/user/user";
+import { UserResponse } from "../../models/user/user.types";
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { redisBlackList } from "../../loader/redis";
@@ -60,19 +60,17 @@ async register(
 
   const hashPassword = await bcrypt.hash(userInput.password, 8);
   try {
-  const exist=await UserModel.find({email:userInput.email})
-  if (exist!==[]){
-    return{errors:{
-      field:"email",
-      message:"this account already exist"
-    }}
-  }
-  else{
    const user= await UserModel.create({_id:new ObjectId(),email:userInput.email,password:hashPassword})
    return {user}
-  }
 }
   catch(err){
+    if (err.code=11000){
+      return{errors:{
+            field:"email",
+            message:"this account already exist"
+          }}
+    }
+    else{
     return{
       errors:{
         field:"Register",
@@ -81,6 +79,8 @@ async register(
     }
   }
 }
+}
+
 @Mutation(()=>UserResponse, {name:"login"} )
 async login(
   @Arg("userInputs") userInputs:UserInputs
@@ -136,7 +136,6 @@ async logout(
   }
   else return false  
 }
-
 @Authorized("ADMIN")
 @Mutation(() => UserResponse, { name: "deleteUser" })
 async deleteUser(

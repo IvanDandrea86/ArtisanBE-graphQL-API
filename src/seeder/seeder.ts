@@ -1,5 +1,5 @@
 import artisans from "../../data/artisan.json";
-import { ArtisanModel } from "../entities/artisan/artisan";
+import { ArtisanModel } from "../models/artisan/artisan";
 import { ObjectId } from "mongodb";
 
 export const seed = async () => {

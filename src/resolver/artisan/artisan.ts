@@ -1,8 +1,8 @@
-import { ArtisanResponse } from "../../entities/artisan/artisan.type";
+import { ArtisanResponse } from "../../models/artisan/artisan.type";
 import { Resolver, Query, Arg, Authorized, Mutation } from "type-graphql";
 import { Service } from "typedi";
-import { Artisan, ArtisanModel } from "../../entities/artisan/artisan";
-import { ArtisanInputs } from "../../entities/artisan/artisan.input";
+import { Artisan, ArtisanModel } from "../../models/artisan/artisan";
+import { ArtisanInputs } from "../../models/artisan/artisan.input";
 import { ObjectId } from "mongodb";
 
 @Service() // Dependencies injection

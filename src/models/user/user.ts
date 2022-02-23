@@ -17,7 +17,7 @@ export class User  {
   @Field(() => Date)
   updatedAt!: Date;
 
-  @prop()
+  @prop({ required: true, unique: true })
   @Field()
   email!: string;
 

@@ -1,55 +1,99 @@
-  import * as dbHandler from '../../test/test-setup';
-// import { gqlCall } from '../../test/gqlCall';
+import * as dbHandler from "../../test/test-setup";
 import "reflect-metadata";
- import { redisBlackList } from '../../loader/redis';
-
+import { redisBlackList } from "../../loader/redis";
+import { REGISTER_TEST } from "../../test/graphql/mutation";
+import { UserModel } from "../../models/user/user";
+import { ObjectId } from "mongodb";
 beforeAll(async () => {
-    await dbHandler.connectToDb()
-    await dbHandler.dropTestDb()
+  await dbHandler.connectToDb();
+   await dbHandler.dropTestDb();
 });
 afterAll(async () => {
-     await redisBlackList.quit()
-    await dbHandler.dropTestDb()
-    await dbHandler.closeDbConnection()
+  await redisBlackList.quit();
+  await dbHandler.dropTestDb();
+  await dbHandler.closeDbConnection();
 });
-
-
-describe('User Resolver Tests ', () => {
-    const REGISTER_TEST=`
-    mutation ($userInput:UserInputs!){
-        register(
-          userInput: $userInput
-        ) {
-          errors {
-            field
-            message
-          }
-          user {
-            email
-            roles
-          }
-        }
-      }
-      
-    `
-    
-    it('can register user', async () => {
-    
-      const {mutate}=await dbHandler.testClient()
- 
-        const { data } = await mutate({
-            mutation: REGISTER_TEST,
-            variables: { 
-                userInput:{
-                    email:"ivan@ivafn.it",
-                    password:"qwerty1Q"
-                }
-            }
-          })
-          expect(data).toBe({})
-    
-        
-      
-    })
-
-})
+describe("User Resolver Tests ", () => {
+  it("Can register user", async () => {
+    const { mutate } = await dbHandler.testClient();
+    expect.assertions(2);
+    const { data } = await mutate({
+      mutation: REGISTER_TEST,
+      variables: {
+        userInput: {
+          email: "ivand@ivafn.it",
+          password: "qwerty1Q",
+        },
+      },
+    });
+    expect(data.register.errors).toBe(null);
+    expect(data.register.user).toBeDefined();
+  }); 
+    it("Can not register same email", async () => {
+      const { mutate } = await dbHandler.testClient();
+      expect.assertions(3);
+      UserModel.create({_id:new ObjectId(),email: "new@email.it",password: "qwerty1Q"})
+      const { data } = await mutate({
+        mutation: REGISTER_TEST,
+        variables: {
+          userInput: {
+            email: "new@email.it",
+            password: "qwerty1Q",
+          },
+        },
+      });
+      expect(data.register.errors).toBeDefined();
+      expect(data.register.errors.field).toBe("email");
+      expect(data.register.user).toBe(null);
+  });
+  it("Can not register same use with password less than 3 char", async () => {
+    const { mutate } = await dbHandler.testClient();
+    expect.assertions(3);
+    const { data } = await mutate({
+      mutation: REGISTER_TEST,
+      variables: {
+        userInput: {
+          email: "new@email.it",
+          password: "qwer",
+        },
+      },
+    });
+    expect(data.register.errors).toBeDefined();
+    expect(data.register.errors.field).toBe("password");
+    expect(data.register.user).toBe(null);
+});
+it("Can not register same use with password  than not match isValidPassword()", async () => {
+  const { mutate } = await dbHandler.testClient();
+  expect.assertions(4);
+  const { data } = await mutate({
+    mutation: REGISTER_TEST,
+    variables: {
+      userInput: {
+        email: "new@email.it",
+        password: "qwerwqeqwe",
+      },
+    },
+  });
+  expect(data.register.errors).toBeDefined();
+  expect(data.register.errors.field).toBe("password");
+  expect(data.register.errors.message).toBe("not avalid password format");
+  expect(data.register.user).toBe(null);
+});
+it("Can not register same use with password  than not match isValidEmail()", async () => {
+  const { mutate } = await dbHandler.testClient();
+  expect.assertions(4);
+  const { data } = await mutate({
+    mutation: REGISTER_TEST,
+    variables: {
+      userInput: {
+        email: "new.email.it",
+        password: "qwerty1Q",
+      },
+    },
+  });
+  expect(data.register.errors).toBeDefined();
+  expect(data.register.errors.field).toBe("email");
+  expect(data.register.errors.message).toBe("not a valid email fromat");
+  expect(data.register.user).toBe(null);
+});
+});
