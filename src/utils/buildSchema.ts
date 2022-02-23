@@ -8,6 +8,8 @@ export const gqlSchema =async()=>{
         validate: true,
         authChecker:authChecker,
     });
-    
     return schema
 }
+
+
+

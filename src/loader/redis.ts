@@ -1,7 +1,7 @@
 import Redis from "ioredis"  
 import { REDIS_URL } from "../const";
 
-export const redisBlackList:Redis.Redis =  new Redis(REDIS_URL)
+export const redisBlackList=  new Redis(REDIS_URL)
 export const loadRedis= ()=>{
  redisBlackList.on('connect',()=>{
 console.log('Redis client connected')

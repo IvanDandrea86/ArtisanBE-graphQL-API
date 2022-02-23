@@ -11,12 +11,9 @@ import { loadRedis } from "./loader/redis";
 import { gqlSchema } from "./utils/buildSchema";
 
 
-async function main() {
- 
-      
-    
-  
-    
+
+const main = async()=> {
+
     runConnection().catch(err => {
         console.error(err);
     });
@@ -29,13 +26,13 @@ async function main() {
           credentialsRequired: false
         })
       );
+    app.use('/', express.static(path.resolve(__dirname, '../../public')));
     const apolloServer = new ApolloServer({
         schema: await gqlSchema(),
         introspection:true,
         playground:true,
         context: ({ req, res }): MyContext => { return { res, req }; }
     });
-    app.use('/', express.static(path.resolve(__dirname, '../../public')));
     app.listen(PORT, () => {
         console.log(`🚀 Server running at http://localhost:${PORT}`);
     });
@@ -45,9 +42,10 @@ async function main() {
             apolloServer.applyMiddleware({ app });
         });
 
-        loadRedis()
-    //    / await seed() 
+    loadRedis()
+    //   await seed() 
 }
+
 main().catch(err=>{
     console.error(err);
 

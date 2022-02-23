@@ -13,12 +13,12 @@ import { isEmptyString, isValidEmail, isValidPassword } from "../../utils/valida
 import { ObjectId } from "mongodb";
 import { SECRET } from "../../const";
 import { Authorization, MyContext } from "../../types/types";
+
 // import { isAuth } from "../../Auth/isAuth";
 
 @Service() // Dependencies injection
 @Resolver(() => User )
 export default class UserResolver {
-
   @Authorized("ADMIN")
   @Query(() => [User], { name: "findAllUsers" })
   async findAllUsers():Promise<User[] | null> {
@@ -39,28 +39,28 @@ async Me(@Ctx() { payload }: MyContext) {
 
 @Mutation(()=>UserResponse , {name:"register"})
 async register(
-  @Arg("userInput") userInput:UserInputs
+  @Arg("userInput") userInputs:UserInputs
 ):Promise<UserResponse>{
-  if (isEmptyString(userInput.password)){return {errors:{
+  if (isEmptyString(userInputs.password)){return {errors:{
     field:"password",
-    message:"password cannot be null:"
+    message:"password cannot be null"
   }}}
-  if (isEmptyString(userInput.email)){return {errors:{
+  if (isEmptyString(userInputs.email)){return {errors:{
     field:"email",
-    message:"email cannot be null:"
+    message:"email cannot be null"
   }}}
-  if (!isValidEmail(userInput.email)){return {errors:{
+  if (!isValidEmail(userInputs.email)){return {errors:{
     field:"email",
     message:"not a valid email fromat"
   }}}
-  if (!isValidPassword(userInput.password)){return {errors:{
+  if (!isValidPassword(userInputs.password)){return {errors:{
     field:"password",
     message:"not avalid password format"
   }}}
 
-  const hashPassword = await bcrypt.hash(userInput.password, 8);
   try {
-   const user= await UserModel.create({_id:new ObjectId(),email:userInput.email,password:hashPassword})
+    const hashPassword = await bcrypt.hash(userInputs.password, 8);
+   const user= await UserModel.create({_id:new ObjectId(),email:userInputs.email,password:hashPassword})
    return {user}
 }
   catch(err){
@@ -95,6 +95,13 @@ async login(
   }}}
   try{
     const user= await UserModel.findOne({email:userInputs.email})
+    if (user===null){
+      return{errors:{
+        field:"email",
+        message:"email not registered"
+      }}
+    }
+    else{
     const validEmailPassword = await bcrypt.compare(
     userInputs.password,
     user?.password as string
@@ -116,6 +123,7 @@ async login(
       )
     }
   }
+}
   }
   catch(err)
   {console.error(err)}  

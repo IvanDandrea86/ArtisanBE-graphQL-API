@@ -10,7 +10,7 @@
         "dev": "nodemon ./dist/src/index.js",
         "build": "tsc",
         "start": "node ./dist/src/index.js",
-        "test": "jest"
+        "test": "jest -w"
     },
     "keywords": [],
     "author": "Ivan D'Andrea",
